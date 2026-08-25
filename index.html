@@ -1,165 +1,742 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PadelToc - Tienda de Pádel</title>
-    <style>
-        :root {
-            --primary-color: #7D0032; /* Granate PadelToc */
-            --bg-color: #f8f9fa;
-            --text-dark: #212529;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PadelToc — Palas y accesorios de pádel</title>
+<meta name="description" content="Tienda online de palas y accesorios de pádel. Catálogo con precios, consultá y comprá por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1A16;
+    --surface:#132821;
+    --surface-2:#1A342A;
+    --line:#F2F1E7;
+    --ball:#D6F23C;
+    --clay:#E2582E;
+    --muted:#93AC9F;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--line);
+    font-family:'Manrope',sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.95;
+    margin:0;
+  }
+  .price{font-family:'Space Mono',monospace;}
+  a{color:inherit;}
+  img{display:block;max-width:100%;}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        body { background-color: var(--bg-color); color: var(--text-dark); }
+  .court-lines{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:0.5;
+  }
 
-        /* Menú de Navegación */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 50px;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .nav-logo img { height: 60px; }
-        nav ul { list-style: none; display: flex; gap: 20px; }
-        nav a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 1.1em; }
-        nav a:hover { color: var(--primary-color); }
+  /* HEADER */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(14,26,22,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(242,241,231,0.1);
+  }
+  .header-inner{
+    max-width:1180px;
+    margin:0 auto;
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .logo{
+    font-family:'Anton',sans-serif;
+    font-size:22px;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo .dot{color:var(--ball);}
+  nav{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+  nav a{
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    text-decoration:none;
+    color:var(--muted);
+    padding:7px 12px;
+    border:1px solid rgba(242,241,231,0.16);
+    border-radius:999px;
+    transition:all .15s ease;
+    white-space:nowrap;
+  }
+  nav a:hover{
+    color:var(--bg);
+    background:var(--ball);
+    border-color:var(--ball);
+  }
 
-        /* Hero / Bienvenida */
-        .hero { text-align: center; padding: 50px 20px; }
-        .hero img { max-width: 150px; margin-bottom: 20px; }
-        .hero h1 { color: var(--primary-color); font-size: 2.5em; text-transform: uppercase; margin-bottom: 10px; }
-        .hero p { font-size: 1.2em; color: #555; }
+  /* HERO */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:76px 20px 60px;
+    border-bottom:1px solid rgba(242,241,231,0.1);
+  }
+  .hero-inner{
+    max-width:1180px;
+    margin:0 auto;
+    position:relative;
+    z-index:2;
+  }
+  .hero h1{
+    font-size:clamp(48px,9vw,104px);
+    color:var(--line);
+  }
+  .hero h1 span{color:var(--ball);}
+  .hero p.tag{
+    max-width:520px;
+    font-size:17px;
+    color:var(--muted);
+    margin:18px 0 30px;
+  }
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    text-decoration:none;
+    padding:14px 22px;
+    border-radius:999px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .12s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--ball);color:#0E1A16;}
+  .btn-ghost{border-color:rgba(242,241,231,0.3);color:var(--line);}
+  .btn-ghost:hover{border-color:var(--line);}
 
-        /* Grillas (Marcas y Productos) */
-        .section-title { text-align: center; margin: 40px 0 20px; font-size: 1.8em; }
-        
-        .grid-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            padding: 0 50px 50px;
-        }
+  .court-svg{
+    position:absolute;
+    right:-8%;
+    top:50%;
+    transform:translateY(-50%);
+    width:640px;
+    max-width:70%;
+    opacity:0.5;
+  }
 
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            width: 250px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); }
-        .card img { max-width: 100%; height: auto; margin-bottom: 15px; }
-        .card h3 { font-size: 1.1em; margin-bottom: 10px; }
-        .card .price { font-weight: bold; font-size: 1.2em; color: var(--text-dark); margin-bottom: 15px; }
-        
-        .btn {
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            font-weight: bold;
-        }
+  /* SECTIONS */
+  .brand-section{
+    max-width:1180px;
+    margin:0 auto;
+    padding:56px 20px 8px;
+    scroll-margin-top:70px;
+  }
+  .brand-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:22px;
+    border-bottom:2px solid rgba(242,241,231,0.14);
+    padding-bottom:14px;
+  }
+  .brand-head h2{
+    font-size:clamp(30px,5vw,46px);
+  }
+  .brand-count{
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+    color:var(--muted);
+  }
 
-        /* Footer */
-        footer {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 40px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .footer-col { margin-bottom: 20px; }
-        .footer-col p { margin: 5px 0; }
-        .footer-col a { color: white; text-decoration: none; }
-    </style>
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:22px;
+    padding-bottom:8px;
+  }
+
+  /* CARD */
+  .card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    overflow:hidden;
+    border:1px solid rgba(242,241,231,0.08);
+    display:flex;
+    flex-direction:column;
+  }
+  .card-img{
+    aspect-ratio:1/1;
+    background:var(--surface-2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .card-img img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    padding:14px;
+  }
+  .card-img.noimg{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card-img.noimg span{
+    font-family:'Anton',sans-serif;
+    font-size:15px;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:center;
+    padding:0 20px;
+  }
+  .card-body{
+    padding:16px 16px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex:1;
+  }
+  .card-name{
+    font-size:15.5px;
+    font-weight:800;
+    line-height:1.25;
+  }
+  .card-foot{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .tag-price{
+    position:relative;
+    background:var(--clay);
+    color:#2A0E04;
+    font-weight:700;
+    font-size:16px;
+    padding:6px 12px 6px 20px;
+    border-radius:3px;
+  }
+  .tag-price::before{
+    content:"";
+    position:absolute;
+    left:8px;
+    top:50%;
+    transform:translateY(-50%);
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#2A0E04;
+  }
+  .wa-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#25D366;
+    flex-shrink:0;
+    text-decoration:none;
+  }
+  .wa-btn svg{width:19px;height:19px;fill:#0E1A16;}
+
+  /* FOOTER */
+  footer{
+    margin-top:70px;
+    border-top:1px solid rgba(242,241,231,0.12);
+    padding:40px 20px 30px;
+  }
+  .footer-inner{
+    max-width:1180px;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:20px;
+    align-items:center;
+  }
+  footer .logo{font-size:18px;}
+  footer p{color:var(--muted);font-size:13px;margin:0;}
+
+  @media (max-width:640px){
+    nav{display:none;}
+    .court-svg{display:none;}
+    .hero{padding:56px 16px 40px;}
+  }
+</style>
 </head>
 <body>
 
-    <!-- NAVEGACIÓN -->
-    <header>
-        <div class="nav-logo">
-            <img src="logo.png" alt="PadelToc Logo">
+<header>
+  <div class="header-inner">
+    <div class="logo">PADEL<span class="dot">TOC</span></div>
+    <nav>
+      <a href="#adidas">Adidas</a>
+      <a href="#bullpadel">Bullpadel</a>
+      <a href="#lok">LOK</a>
+      <a href="#nox">NOX</a>
+      <a href="#siux">SIUX</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="court-svg" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="20" width="360" height="460" rx="4" stroke="#F2F1E7" stroke-width="2"/>
+    <line x1="20" y1="250" x2="380" y2="250" stroke="#F2F1E7" stroke-width="2"/>
+    <line x1="20" y1="170" x2="380" y2="170" stroke="#F2F1E7" stroke-width="1.5"/>
+    <line x1="20" y1="330" x2="380" y2="330" stroke="#F2F1E7" stroke-width="1.5"/>
+    <line x1="200" y1="20" x2="200" y2="170" stroke="#F2F1E7" stroke-width="1.5"/>
+    <line x1="200" y1="330" x2="200" y2="480" stroke="#F2F1E7" stroke-width="1.5"/>
+    <circle cx="200" cy="250" r="70" stroke="#D6F23C" stroke-width="2" opacity="0.7"/>
+  </svg>
+  <div class="hero-inner">
+    <h1>PADEL<span>TOC</span></h1>
+    <p class="tag">Palas y accesorios de pádel. Catálogo real, precios claros y compra directa por WhatsApp — sin vueltas.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20hacer%20una%20consulta%20sobre%20PadelToc" target="_blank" rel="noopener">
+        Escribinos por WhatsApp
+      </a>
+      <a class="btn btn-ghost" href="#adidas">Ver catálogo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ADIDAS -->
+<section class="brand-section" id="adidas">
+  <div class="brand-head">
+    <h2>Adidas</h2>
+    <span class="brand-count">8 modelos</span>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-metalbone-33-hrd.jpg" alt="Pala Adidas Metalbone 3.3 HRD"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Metalbone 3.3 HRD</div>
+        <div class="card-foot">
+          <span class="tag-price">$380.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Metalbone%203.3%20HRD%20($380.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">Paletas</a></li>
-                <li><a href="#">Accesorios</a></li>
-                <li><a href="#">Marcas</a></li>
-                <li><a href="#">Indumentaria</a></li>
-                <li><a href="#">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero">
-        <img src="logo.png" alt="PadelToc">
-        <h1>Bienvenido a PadelToc 🎾</h1>
-        <p>Tu tienda online especialista en paletas y accesorios de pádel.<br>Desde el corazón de Buenos Aires para todo el país.</p>
-    </section>
-
-    <!-- PRODUCTOS DESTACADOS -->
-    <h2 class="section-title">Paletas Destacadas</h2>
-    <div class="grid-container">
-        
-        <div class="card">
-            <!-- Reemplazar el src con la imagen de la paleta -->
-            <img src="https://via.placeholder.com/150" alt="Bullpadel Vertex">
-            <h3>Bullpadel Vertex 03</h3>
-            <p class="price">$95.000 ARS</p>
-            <a href="#" class="btn">Ver Más</a>
-        </div>
-
-        <div class="card">
-            <img src="https://via.placeholder.com/150" alt="Nox AT10">
-            <h3>Nox AT10 Luxury</h3>
-            <p class="price">$95.000 ARS</p>
-            <a href="#" class="btn">Ver Más</a>
-        </div>
-
-        <div class="card">
-            <img src="https://via.placeholder.com/150" alt="Adidas Metalbone">
-            <h3>Adidas Metalbone 3.2</h3>
-            <p class="price">$95.000 ARS</p>
-            <a href="#" class="btn">Ver Más</a>
-        </div>
-
-        <div class="card">
-            <img src="https://via.placeholder.com/150" alt="Babolat Technical Viper">
-            <h3>Babolat Technical Viper</h3>
-            <p class="price">$95.000 ARS</p>
-            <a href="#" class="btn">Ver Más</a>
-        </div>
-
+      </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-col">
-            <h4>Contacto</h4>
-            <p>✉️ maximogriego-a.com</p>
-            <p>📍 Buenos Aires, Argentina</p>
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-metalbone-34-hrd.jpg" alt="Pala Adidas Metalbone 3.4 HRD"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Metalbone 3.4 HRD</div>
+        <div class="card-foot">
+          <span class="tag-price">$450.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Metalbone%203.4%20HRD%20($450.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
         </div>
-        <div class="footer-col" style="text-align: center;">
-            <p>Este sitio web de PadelToc está en construcción.</p>
-            <p>¡Visitanos pronto para lanzamientos!</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-cross-it-light-marta-ortega.jpg" alt="Pala Adidas Marta Ortega Cross It Light Pro EDT 2026"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Marta Ortega Cross It Light Pro EDT 2026</div>
+        <div class="card-foot">
+          <span class="tag-price">$530.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Marta%20Ortega%20Cross%20It%20Light%20Pro%20EDT%202026%20($530.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
         </div>
-        <div class="footer-col">
-            <p>Alojado por <strong>GitHub Pages</strong>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-metalbone-35-2026.jpg" alt="Pala Adidas Metalbone 3.5 2026"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Metalbone 3.5 2026</div>
+        <div class="card-foot">
+          <span class="tag-price">$495.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Metalbone%203.5%202026%20($495.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
         </div>
-    </footer>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-metalbone-35-hrd-plus.jpg" alt="Pala Adidas Metalbone 3.5 2026 HRD+"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Metalbone 3.5 2026 HRD+</div>
+        <div class="card-foot">
+          <span class="tag-price">$495.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Metalbone%203.5%202026%20HRD%2B%20($495.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-ale-galan-metalbone-reserve.jpg" alt="Pala Adidas Ale Galán Metalbone Reserve 2026"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Ale Galán Metalbone Reserve 2026</div>
+        <div class="card-foot">
+          <span class="tag-price">$520.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Ale%20Gal%C3%A1n%20Metalbone%20Reserve%202026%20($520.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-ari-sanchez-arrow-hit-light.jpg" alt="Pala Adidas Ari Sánchez Arrow Hit Light 2026"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Ari Sánchez Arrow Hit Light 2026</div>
+        <div class="card-foot">
+          <span class="tag-price">$450.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Ari%20S%C3%A1nchez%20Arrow%20Hit%20Light%202026%20($450.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/adidas-metalbone-ctrl.jpg" alt="Pala Adidas Metalbone CTRL 2026"></div>
+      <div class="card-body">
+        <div class="card-name">Adidas Metalbone CTRL 2026</div>
+        <div class="card-foot">
+          <span class="tag-price">$530.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Adidas%20Metalbone%20CTRL%202026%20($530.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BULLPADEL -->
+<section class="brand-section" id="bullpadel">
+  <div class="brand-head">
+    <h2>Bullpadel</h2>
+    <span class="brand-count">6 modelos</span>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img"><img src="images/bullpadel-vertex-05.jpg" alt="Pala Bullpadel Vertex 05"></div>
+      <div class="card-body">
+        <div class="card-name">Bullpadel Vertex 05</div>
+        <div class="card-foot">
+          <span class="tag-price">$440.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Bullpadel%20Vertex%2005%20($440.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/bullpadel-vertex-05-w.jpg" alt="Pala Bullpadel Vertex 05 W Mujer"></div>
+      <div class="card-body">
+        <div class="card-name">Bullpadel Vertex 05 W (Mujer)</div>
+        <div class="card-foot">
+          <span class="tag-price">$400.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Bullpadel%20Vertex%2005%20W%20Mujer%20($400.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/bullpadel-pearl-2027.jpg" alt="Pala Bullpadel Pearl 2027"></div>
+      <div class="card-body">
+        <div class="card-name">Bullpadel Pearl 2027</div>
+        <div class="card-foot">
+          <span class="tag-price">$460.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Bullpadel%20Pearl%202027%20($460.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/bullpadel-neuron-02-edge.jpg" alt="Pala Bullpadel Neuron 02 Edge"></div>
+      <div class="card-body">
+        <div class="card-name">Bullpadel Neuron 02 Edge</div>
+        <div class="card-foot">
+          <span class="tag-price">$420.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Bullpadel%20Neuron%2002%20Edge%20($420.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/bullpadel-hack-04-2025.jpg" alt="Pala Bullpadel Hack 04 2025"></div>
+      <div class="card-body">
+        <div class="card-name">Bullpadel Hack 04 2025</div>
+        <div class="card-foot">
+          <span class="tag-price">$380.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Bullpadel%20Hack%2004%202025%20($380.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/bullpadel-vertex-04-2025.jpg" alt="Pala Bullpadel Vertex 04 2025"></div>
+      <div class="card-body">
+        <div class="card-name">Bullpadel Vertex 04 2025</div>
+        <div class="card-foot">
+          <span class="tag-price">$380.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Bullpadel%20Vertex%2004%202025%20($380.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img noimg"><span>Bullpadel Xplo 25<br>Foto próximamente</span></div>
+      <div class="card-body">
+        <div class="card-name">Bullpadel Xplo 25</div>
+        <div class="card-foot">
+          <span class="tag-price">$350.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20Bullpadel%20Xplo%2025%20($350.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LOK -->
+<section class="brand-section" id="lok">
+  <div class="brand-head">
+    <h2>LOK</h2>
+    <span class="brand-count">5 modelos</span>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img"><img src="images/lok-maxx-flow-gen2.jpg" alt="Pala LOK Maxx Flow Gen 2"></div>
+      <div class="card-body">
+        <div class="card-name">LOK Maxx Flow Gen 2</div>
+        <div class="card-foot">
+          <span class="tag-price">$390.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20LOK%20Maxx%20Flow%20Gen%202%20($390.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/lok-yanguas-world-maxx-hype2.jpg" alt="Pala LOK Yanguas World Maxx Hype 2"></div>
+      <div class="card-body">
+        <div class="card-name">LOK Yanguas World Maxx Hype 2</div>
+        <div class="card-foot">
+          <span class="tag-price">$440.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20LOK%20Yanguas%20World%20Maxx%20Hype%202%20($440.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/lok-maxx-hype2.jpg" alt="Pala LOK Maxx Hype 2"></div>
+      <div class="card-body">
+        <div class="card-name">LOK Maxx Hype 2</div>
+        <div class="card-foot">
+          <span class="tag-price">$400.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20LOK%20Maxx%20Hype%202%20($400.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/lok-maxx-hype.jpg" alt="Pala LOK Maxx Hype"></div>
+      <div class="card-body">
+        <div class="card-name">LOK Maxx Hype</div>
+        <div class="card-foot">
+          <span class="tag-price">$350.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20LOK%20Maxx%20Hype%20($350.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/lok-carbon-hype-franco-dal-bianco.jpg" alt="Pala LOK Carb-On Hype by Franco Dal Bianco"></div>
+      <div class="card-body">
+        <div class="card-name">LOK Carb-On Hype by Franco Dal Bianco</div>
+        <div class="card-foot">
+          <span class="tag-price">$380.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20LOK%20Carb-On%20Hype%20by%20Franco%20Dal%20Bianco%20($380.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NOX -->
+<section class="brand-section" id="nox">
+  <div class="brand-head">
+    <h2>NOX</h2>
+    <span class="brand-count">3 modelos</span>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img"><img src="images/nox-at10-genius-18k-2026.jpg" alt="Pala NOX AT10 Genius 18K Alum by Agustín Tapia 2026"></div>
+      <div class="card-body">
+        <div class="card-name">NOX AT10 Genius 18K Alum by Agustín Tapia 2026</div>
+        <div class="card-foot">
+          <span class="tag-price">$460.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20NOX%20AT10%20Genius%2018K%20Alum%20by%20Agust%C3%ADn%20Tapia%202026%20($460.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/nox-at10-genius-12k-xtreme-2026.jpg" alt="Pala NOX AT10 Genius 12K Alum Xtreme by Agustín Tapia 2026"></div>
+      <div class="card-body">
+        <div class="card-name">NOX AT10 Genius 12K Alum Xtreme by Agustín Tapia 2026</div>
+        <div class="card-foot">
+          <span class="tag-price">$420.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20NOX%20AT10%20Genius%2012K%20Alum%20Xtreme%20by%20Agust%C3%ADn%20Tapia%202026%20($420.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/nox-at10-genius-18k-2025.jpg" alt="Pala NOX AT10 Genius 18K Alum by Agustín Tapia 2025"></div>
+      <div class="card-body">
+        <div class="card-name">NOX AT10 Genius 18K Alum by Agustín Tapia 2025</div>
+        <div class="card-foot">
+          <span class="tag-price">$360.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20NOX%20AT10%20Genius%2018K%20Alum%20by%20Agust%C3%ADn%20Tapia%202025%20($360.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SIUX -->
+<section class="brand-section" id="siux">
+  <div class="brand-head">
+    <h2>SIUX</h2>
+    <span class="brand-count">3 modelos</span>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-img"><img src="images/siux-fenix-pro5-black.jpg" alt="Pala SIUX Fenix Pro 5 Black"></div>
+      <div class="card-body">
+        <div class="card-name">SIUX Fenix Pro 5 Black</div>
+        <div class="card-foot">
+          <span class="tag-price">$350.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20SIUX%20Fenix%20Pro%205%20Black%20($350.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/siux-electra-stupa-pro-st4.jpg" alt="Pala SIUX Electra Stupa Pro ST4"></div>
+      <div class="card-body">
+        <div class="card-name">SIUX Electra Stupa Pro ST4</div>
+        <div class="card-foot">
+          <span class="tag-price">$350.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20SIUX%20Electra%20Stupa%20Pro%20ST4%20($350.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="images/siux-diablo-pro-2026.jpg" alt="Pala SIUX Diablo Pro 2026 Night Blue"></div>
+      <div class="card-body">
+        <div class="card-name">SIUX Diablo Pro 2026 Night Blue</div>
+        <div class="card-foot">
+          <span class="tag-price">$440.000</span>
+          <a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/5491173749569?text=Hola!%20Quiero%20consultar%20por%20la%20SIUX%20Diablo%20Pro%202026%20Night%20Blue%20($440.000)">
+            <svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h0a7.94 7.94 0 0 0 5.55-13.58ZM12.05 18.4a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.5.66.67-2.43-.16-.25a6.6 6.6 0 1 1 12.24-3.5 6.6 6.6 0 0 1-6.65 6.58Zm3.6-4.9c-.2-.1-1.16-.57-1.34-.64-.18-.07-.31-.1-.44.1-.13.2-.5.63-.62.76-.11.13-.23.14-.42.05a5.4 5.4 0 0 1-2.7-2.36c-.2-.35.2-.32.58-1.08.06-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.33h-.38c-.13 0-.34.05-.52.24-.18.2-.68.66-.68 1.6 0 .95.7 1.87.8 2 .1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.4.47.15.9.13 1.23.08.38-.06 1.16-.47 1.32-.93.16-.45.16-.84.12-.92-.05-.09-.18-.14-.38-.24Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="logo">PADEL<span class="dot">TOC</span></div>
+    <p>Tienda online de palas y accesorios de pádel · Buenos Aires, Argentina</p>
+    <a class="btn btn-ghost" href="https://wa.me/5491173749569" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</footer>
 
 </body>
 </html>
